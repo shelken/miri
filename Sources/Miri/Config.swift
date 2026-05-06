@@ -66,6 +66,7 @@ struct MiriConfig: Codable {
     var hoverFocusAfterTrackpadMS: Int?
     var hoverFocusMode: HoverFocusMode?
     var workspaceAutoBackAndForth: Bool?
+    var preserveConfiguredWorkspaces: Bool?
     var centerFocusedColumn: Bool?
     var focusAlignment: FocusAlignment?
     var newWindowPosition: NewWindowPosition?
@@ -111,6 +112,7 @@ struct MiriConfig: Codable {
         hoverFocusAfterTrackpadMS: 280,
         hoverFocusMode: .edgeOrVisible,
         workspaceAutoBackAndForth: true,
+        preserveConfiguredWorkspaces: false,
         centerFocusedColumn: true,
         focusAlignment: .smart,
         newWindowPosition: .afterActive,
@@ -309,6 +311,7 @@ struct MiriConfig: Codable {
         case hoverFocusAfterTrackpadMS = "hover_focus_after_trackpad_ms"
         case hoverFocusMode = "hover_focus_mode"
         case workspaceAutoBackAndForth = "workspace_auto_back_and_forth"
+        case preserveConfiguredWorkspaces = "preserve_configured_workspaces"
         case centerFocusedColumn = "center_focused_column"
         case focusAlignment = "focus_alignment"
         case newWindowPosition = "new_window_position"

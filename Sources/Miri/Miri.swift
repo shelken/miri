@@ -2422,15 +2422,19 @@ final class Miri: NSObject, NSMenuDelegate, @unchecked Sendable {
             workspaces = [Workspace()]
             activeWorkspace = 0
             previousWorkspace = nil
-            return
+        }
+
+        let preservedCount = minimumWorkspaceCount
+        while workspaces.count < preservedCount {
+            workspaces.append(Workspace())
         }
 
         if !workspaces.last!.isEmpty {
             workspaces.append(Workspace())
         }
 
-        if workspaces.count > 1 {
-            for index in stride(from: workspaces.count - 2, through: 0, by: -1) {
+        if workspaces.count > preservedCount + 1 {
+            for index in stride(from: workspaces.count - 2, through: preservedCount, by: -1) {
                 guard index != activeWorkspace, workspaces[index].isEmpty else {
                     continue
                 }
@@ -2445,6 +2449,17 @@ final class Miri: NSObject, NSMenuDelegate, @unchecked Sendable {
         for workspace in workspaces {
             workspace.clampFocus()
         }
+    }
+
+    private var minimumWorkspaceCount: Int {
+        guard preserveConfiguredWorkspaces else {
+            return 1
+        }
+        return max(1, config.rules.compactMap(\.workspace).max() ?? 1)
+    }
+
+    private var preserveConfiguredWorkspaces: Bool {
+        config.preserveConfiguredWorkspaces ?? MiriConfig.fallback.preserveConfiguredWorkspaces ?? false
     }
 
     private var animationDuration: TimeInterval {
